@@ -24,13 +24,13 @@
         "__id__": 14
       },
       {
-        "__id__": 25
+        "__id__": 26
+      },
+      {
+        "__id__": 35
       },
       {
         "__id__": 34
-      },
-      {
-        "__id__": 33
       }
     ],
     "_active": true,
@@ -38,7 +38,7 @@
     "_prefab": null,
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 35
+      "__id__": 36
     },
     "_id": "4a56c813-3580-48a9-9557-17f8dc8226f4"
   },
@@ -424,6 +424,9 @@
       },
       {
         "__id__": 24
+      },
+      {
+        "__id__": 25
       }
     ],
     "removedComponents": []
@@ -489,7 +492,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 0
+      "z": 9.384
     }
   },
   {
@@ -524,6 +527,16 @@
     }
   },
   {
+    "__type__": "CCPropertyOverrideInfo",
+    "targetInfo": {
+      "__id__": 21
+    },
+    "propertyPath": [
+      "_active"
+    ],
+    "value": true
+  },
+  {
     "__type__": "cc.Node",
     "_name": "Canvas",
     "_objFlags": 0,
@@ -532,14 +545,11 @@
     },
     "_children": [
       {
-        "__id__": 26
+        "__id__": 27
       }
     ],
     "_active": true,
     "_components": [
-      {
-        "__id__": 28
-      },
       {
         "__id__": 29
       },
@@ -548,6 +558,9 @@
       },
       {
         "__id__": 31
+      },
+      {
+        "__id__": 32
       }
     ],
     "_prefab": null,
@@ -584,13 +597,13 @@
     "_name": "Camera",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 25
+      "__id__": 26
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 27
+        "__id__": 28
       }
     ],
     "_prefab": null,
@@ -627,7 +640,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 26
+      "__id__": 27
     },
     "_enabled": true,
     "__prefab": null,
@@ -668,7 +681,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 26
     },
     "_enabled": true,
     "__prefab": null,
@@ -689,12 +702,12 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 26
     },
     "_enabled": true,
     "__prefab": null,
     "_cameraComponent": {
-      "__id__": 27
+      "__id__": 28
     },
     "_alignCanvasWithScreen": true,
     "_id": "43z5Hmaz9KOKYdWbOqM1XG"
@@ -704,7 +717,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 26
     },
     "_enabled": true,
     "__prefab": null,
@@ -733,7 +746,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 26
     },
     "_enabled": true,
     "__prefab": null,
@@ -742,7 +755,7 @@
       "__id__": 14
     },
     "gameManager": {
-      "__id__": 32
+      "__id__": 33
     },
     "_id": "46FewgXuNOBa9m6Fp+ZXSm"
   },
@@ -751,7 +764,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 33
+      "__id__": 34
     },
     "_enabled": true,
     "__prefab": null,
@@ -781,7 +794,15 @@
     "shootTime": 0.1,
     "bulletSpeed": 1,
     "bulletRoot": {
-      "__id__": 34
+      "__id__": 35
+    },
+    "enemy01": {
+      "__uuid__": "aba01b0f-31d0-44b4-a72b-321759e8e382",
+      "__expectedType__": "cc.Prefab"
+    },
+    "enemy02": {
+      "__uuid__": "16edd06c-a174-4ed4-aa3f-3b2f4a1faa55",
+      "__expectedType__": "cc.Prefab"
     },
     "_id": "36KqxwT2hFMIuCLQWfxtyE"
   },
@@ -796,7 +817,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 32
+        "__id__": 33
       }
     ],
     "_prefab": null,
@@ -870,16 +891,16 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 36
-    },
-    "shadows": {
       "__id__": 37
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 38
     },
-    "fog": {
+    "_skybox": {
       "__id__": 39
+    },
+    "fog": {
+      "__id__": 40
     }
   },
   {
