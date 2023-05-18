@@ -82,16 +82,34 @@ export class GameManager extends Component {
             this._currShootTime = 0;
         }
 
+        this._currCreateEnemyTime += deltaTime;
         if (this._combinationInterval === Constant.Combination.PLAN1) {
-            this._currCreateEnemyTime += deltaTime;
             if (this._currCreateEnemyTime > this.createEnemyTime) {
                 this.createEnemyPlane();
                 this._currCreateEnemyTime = 0;
             }
-        } else if (this._combinationInterval == Constant.Combination.PLAN2) {
-
+        } else if (this._combinationInterval === Constant.Combination.PLAN2) {
+            if (this._currCreateEnemyTime > this.createEnemyTime * 0.9) {
+                const randomCombination = math.randomRangeInt(1, 3);
+                if (randomCombination === Constant.Combination.PLAN2) {
+                    this.createCombination1();
+                } else {
+                    this.createEnemyPlane();
+                }
+                this._currCreateEnemyTime = 0;
+            }
         } else {
-
+            if (this._currCreateEnemyTime > this.createEnemyTime * 0.8) {
+                const randomCombination = math.randomRangeInt(1, 4);
+                if (randomCombination === Constant.Combination.PLAN2) {
+                    this.createCombination1();
+                } else if (randomCombination === Constant.Combination.PLAN3) {
+                    this.createCombination2();
+                } else {
+                    this.createEnemyPlane();
+                }
+                this._currCreateEnemyTime = 0;
+            }
         }
     }
 
@@ -124,6 +142,43 @@ export class GameManager extends Component {
         // 设置飞机随机位置
         const randomPos = math.randomRangeInt(-25, 26);
         enemy.setPosition(randomPos, 0, -50);
+    }
+
+    public createCombination1() {
+        const enemyArray = new Array<Node>(5);
+        for (let i = 0; i < 5; i++) {
+            enemyArray[i] = instantiate(this.enemy01);
+            const element = enemyArray[i];
+            element.setParent(this.node);
+            element.setPosition(-20 + i * 10, 0, -50);
+            const enemyComp = element.getComponent(EnemyPlane);
+            enemyComp.show(this.enemy1Speed);
+        }
+    }
+
+    public createCombination2() {
+        const enemyArray = new Array<Node>(7);
+
+        const combinationPos = [
+            -21, 0, -60,
+            -14, 0, -55,
+            -7, 0, -50,
+            0, 0, -45,
+            7, 0, -50,
+            14, 0, -55,
+            21, 0, -60,
+        ];
+
+        for (let i = 0; i < enemyArray.length; i++) {
+            // 选择敌机 enemy02，这里还可以随机选择敌机
+            enemyArray[i] = instantiate(this.enemy02);
+            const element = enemyArray[i];
+            element.parent = this.node;
+            const startIndex = i * 3;
+            element.setPosition(combinationPos[startIndex], combinationPos[startIndex + 1], combinationPos[startIndex + 2]);
+            const enemyComp = element.getComponent(EnemyPlane);
+            enemyComp.show(this.enemy2Speed);
+        }
     }
 
     public isShooting(value: boolean) {

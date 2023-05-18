@@ -804,6 +804,9 @@
       "__uuid__": "16edd06c-a174-4ed4-aa3f-3b2f4a1faa55",
       "__expectedType__": "cc.Prefab"
     },
+    "createEnemyTime": 1,
+    "enemy1Speed": 0.5,
+    "enemy2Speed": 0.7,
     "_id": "36KqxwT2hFMIuCLQWfxtyE"
   },
   {
