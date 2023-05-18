@@ -1,5 +1,6 @@
 
-import { _decorator, Component, EventTouch, Node, SystemEvent, Touch } from 'cc';
+import { _decorator, Component, EventTouch, Node, SystemEvent, SystemEventType, Touch } from 'cc';
+import { GameManager } from '../framework/GameManager';
 const { ccclass, property } = _decorator;
 
 /**
@@ -23,14 +24,27 @@ export class UiMain extends Component {
     @property(Node)
     public playerPlane: Node = null;
 
+    @property(GameManager)
+    public gameManager: GameManager = null;
+
     start() {
+        this.node.on(SystemEvent.EventType.TOUCH_START, this._touchStart, this);
         this.node.on(SystemEvent.EventType.TOUCH_MOVE, this._touchMove, this);
+        this.node.on(SystemEvent.EventType.TOUCH_END, this._touchEnd, this);
+    }
+
+    _touchStart(touch: Touch, event: EventTouch) {
+        this.gameManager.isShooting(true);
     }
 
     _touchMove(touch: Touch, event: EventTouch): void {
         const delta = touch.getDelta();
         let pos = this.playerPlane.position;
         this.playerPlane.setPosition(pos.x + 0.01 * delta.x * this.planeSpeed, pos.y, pos.z - 0.01 * delta.y * this.planeSpeed);
+    }
+
+    _touchEnd(touch: Touch, event: EventTouch) {
+        this.gameManager.isShooting(false);
     }
 }
 

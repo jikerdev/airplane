@@ -25,6 +25,12 @@
       },
       {
         "__id__": 25
+      },
+      {
+        "__id__": 34
+      },
+      {
+        "__id__": 33
       }
     ],
     "_active": true,
@@ -32,7 +38,7 @@
     "_prefab": null,
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 32
+      "__id__": 35
     },
     "_id": "4a56c813-3580-48a9-9557-17f8dc8226f4"
   },
@@ -735,21 +741,145 @@
     "playerPlane": {
       "__id__": 14
     },
+    "gameManager": {
+      "__id__": 32
+    },
     "_id": "46FewgXuNOBa9m6Fp+ZXSm"
+  },
+  {
+    "__type__": "197dfmjqGFA/odeZhONKfTN",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 33
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "playerPlane": {
+      "__id__": 14
+    },
+    "bullet01": {
+      "__uuid__": "3aa37c1f-c201-46d1-8b46-8e9bfa25d226",
+      "__expectedType__": "cc.Prefab"
+    },
+    "bullet02": {
+      "__uuid__": "ad51f37e-2a16-4735-bc41-c7e02685a2b4",
+      "__expectedType__": "cc.Prefab"
+    },
+    "bullet03": {
+      "__uuid__": "8043df2a-9ff6-4c20-b340-2f8170a48c89",
+      "__expectedType__": "cc.Prefab"
+    },
+    "bullet04": {
+      "__uuid__": "1e2479c5-17e1-458e-b001-80e7fedc74ab",
+      "__expectedType__": "cc.Prefab"
+    },
+    "bullet05": {
+      "__uuid__": "e5730792-4359-4bef-b5a0-8e9665275ca1",
+      "__expectedType__": "cc.Prefab"
+    },
+    "shootTime": 0.1,
+    "bulletSpeed": 1,
+    "bulletRoot": {
+      "__id__": 34
+    },
+    "_id": "36KqxwT2hFMIuCLQWfxtyE"
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "gameManager",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 32
+      }
+    ],
+    "_prefab": null,
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": "f28JyFzJ5Bx5DodNsvumiO"
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "bulletManager",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [],
+    "_prefab": null,
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": "08v0CbD+tH8K3CjrUZJCtm"
   },
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 33
+      "__id__": 36
     },
     "shadows": {
-      "__id__": 34
+      "__id__": 37
     },
     "_skybox": {
-      "__id__": 35
+      "__id__": 38
     },
     "fog": {
-      "__id__": 36
+      "__id__": 39
     }
   },
   {
