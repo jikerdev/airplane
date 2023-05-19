@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node } from 'cc';
+import { GameManager } from '../framework/GameManager';
 const { ccclass, property } = _decorator;
 
 /**
@@ -19,7 +20,17 @@ const OUTOFBOUNCE = 50;
 @ccclass('EnemyPlane')
 export class EnemyPlane extends Component {
 
-    private _enemySpeed: number = 0;
+    /**
+     * 子弹发射周期
+     */
+    @property
+    public createBulletTime = 0.5;
+
+    private _enemySpeed = 0;
+    private _needBullet = false;
+    private _gameManager: GameManager = null;
+
+    private _currCreateBulletTime = 0;
 
     start() {
         // [3]
@@ -28,15 +39,25 @@ export class EnemyPlane extends Component {
     update(deltaTime: number) {
         const pos = this.node.position;
         const movePos = pos.z + this._enemySpeed;
-        this.node.setPosition(pos.x, pos.y, pos.z + this._enemySpeed);
+        this.node.setPosition(pos.x, pos.y, movePos);
+
+        if (this._needBullet) {
+            this._currCreateBulletTime += deltaTime;
+            if (this._currCreateBulletTime > this.createBulletTime) {
+                this._gameManager.createEnemyBullet(this.node.position);
+                this._currCreateBulletTime = 0;
+            }
+        }
 
         if (pos.z > OUTOFBOUNCE) {
             this.node.destroy();
         }
     }
 
-    show(speed: number) {
+    show(gameManager: GameManager, speed: number, needBullet: boolean) {
+        this._gameManager = gameManager;
         this._enemySpeed = speed;
+        this._needBullet = needBullet;
     }
 }
 
