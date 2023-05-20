@@ -1,5 +1,6 @@
 
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Collider, Component, ITriggerEvent, Node } from 'cc';
+import { Constant } from '../framework/Constant';
 const { ccclass, property } = _decorator;
 
 /**
@@ -20,8 +21,20 @@ export class Bullet extends Component {
 
     private _isEnemyBullet = false;
 
-    start() {
-        // [3]
+    onEnable() {
+        const collider = this.getComponent(Collider);
+        collider.on('onTriggerEnter', this._onTriggerEnter, this);
+    }
+
+    onDisable() {
+        const collider = this.getComponent(Collider);
+        collider.off('onTriggerEnter', this._onTriggerEnter, this);
+    }
+
+    private _onTriggerEnter(event: ITriggerEvent) {
+        console.log('trigger bullet destroy');
+
+        this.node.destroy();
     }
 
     update(deltaTime: number) {

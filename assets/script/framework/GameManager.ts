@@ -1,5 +1,5 @@
 
-import { _decorator, Component, instantiate, math, Node, Prefab, TERRAIN_HEIGHT_BASE, Vec3 } from 'cc';
+import { _decorator, BoxCollider, Component, instantiate, math, Node, Prefab, TERRAIN_HEIGHT_BASE, Vec3 } from 'cc';
 import { Bullet } from '../bullet/Bullet';
 import { Constant } from './Constant';
 import { EnemyPlane } from '../plane/EnemyPlane';
@@ -114,6 +114,8 @@ export class GameManager extends Component {
         }
     }
 
+    public addScore() { }
+
     public createPlayerBullet() {
         const bullet = instantiate(this.bullet01);
         bullet.setParent(this.bulletRoot);
@@ -129,6 +131,10 @@ export class GameManager extends Component {
         bullet.setPosition(targetPos.x, targetPos.y, targetPos.z + 6);
         const bulletComp = bullet.getComponent(Bullet);
         bulletComp.show(1, true);
+
+        const colliderComp = bullet.getComponent(BoxCollider);
+        colliderComp.setGroup(Constant.CollisionType.ENEMY_BULLET);
+        colliderComp.setMask(Constant.CollisionType.SELF_PLANE);
     }
 
     public createEnemyPlane() {

@@ -1,5 +1,6 @@
 
-import { _decorator, Component } from 'cc';
+import { _decorator, Collider, Component, ITriggerEvent } from 'cc';
+import { Constant } from '../framework/Constant';
 const { ccclass, property } = _decorator;
 
 /**
@@ -17,8 +18,23 @@ const { ccclass, property } = _decorator;
 @ccclass('SelfPlane')
 export class SelfPlane extends Component {
 
-    start() {
-        // Your initialization goes here.
+    onEnable() {
+        // 注册触发事件来监听碰撞回调, onTriggerEnter 为碰撞开始回调
+        const collider = this.getComponent(Collider);
+        collider.on('onTriggerEnter', this._onTriggerEnter, this);
+    }
+
+    onDisable() {
+        const collider = this.getComponent(Collider);
+        collider.off('onTriggerEnter', this._onTriggerEnter, this);
+    }
+
+    private _onTriggerEnter(event: ITriggerEvent) {
+        const colliderGroup = event.otherCollider.getGroup();
+        if (colliderGroup === Constant.CollisionType.ENEMY_PLANE
+            || colliderGroup === Constant.CollisionType.ENEMY_BULLET) {
+            console.log('reduce blood');
+        }
     }
 }
 

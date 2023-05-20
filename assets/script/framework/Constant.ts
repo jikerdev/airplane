@@ -13,24 +13,34 @@ const { ccclass, property } = _decorator;
  * ManualUrl = https://docs.cocos.com/creator/3.3/manual/en/
  *
  */
- 
-export class Constant{
+
+export class Constant {
 
     @property
     public enemySpeed: number = 0;
 
     public enemyType = Constant.EnemyType.TYPE1;
 
+    // 敌机类型
     public static EnemyType = {
         TYPE1: 1,
         TYPE2: 2,
-    }
+    };
 
+    // 敌机组合类型
     public static Combination = {
         PLAN1: 1,
         PLAN2: 2,
         PLAN3: 3,
-    }
+    };
+
+    // 碰撞类型，要对应项目中的碰撞矩阵
+    public static CollisionType = {
+        SELF_PLANE: 1 << 1,
+        ENEMY_PLANE: 1 << 2,
+        SELF_BULLET: 1 << 3,
+        ENEMY_BULLET: 1 << 4,
+    };
 }
 
 /**
