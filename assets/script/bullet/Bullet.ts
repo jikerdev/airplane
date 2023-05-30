@@ -18,7 +18,7 @@ const { ccclass, property } = _decorator;
 @ccclass('Bullet')
 export class Bullet extends Component {
     private _bulletSpeed = 0;
-
+    private _dirction = Constant.Direction.MIDDLE;
     private _isEnemyBullet = false;
 
     onEnable() {
@@ -41,6 +41,7 @@ export class Bullet extends Component {
         const pos = this.node.position;
         let moveLength = 0;
         if (this._isEnemyBullet) {
+            // 敌方子弹
             moveLength = pos.z + this._bulletSpeed;
             this.node.setPosition(pos.x, pos.y, moveLength);
 
@@ -49,8 +50,15 @@ export class Bullet extends Component {
                 console.log('bullet destroy');
             }
         } else {
+            // 我方子弹
             moveLength = pos.z - this._bulletSpeed;
-            this.node.setPosition(pos.x, pos.y, moveLength);
+            if (this._dirction === Constant.Direction.LEFT) {
+                this.node.setPosition(pos.x - this._bulletSpeed * 0.2, pos.y, moveLength);
+            } else if (this._dirction === Constant.Direction.RIGHT) {
+                this.node.setPosition(pos.x + this._bulletSpeed * 0.2, pos.y, moveLength);
+            } else {
+                this.node.setPosition(pos.x, pos.y, moveLength);
+            }
 
             if (moveLength < -50) {
                 this.node.destroy();
@@ -59,9 +67,10 @@ export class Bullet extends Component {
         }
     }
 
-    show(speed: number, isEnemyBullet: boolean) {
+    show(speed: number, isEnemyBullet: boolean, direction = Constant.Direction.MIDDLE) {
         this._bulletSpeed = speed;
         this._isEnemyBullet = isEnemyBullet;
+        this._dirction = direction;
     }
 }
 

@@ -95,7 +95,13 @@ export class GameManager extends Component {
         // 当前时间大于射击时间，就发射子弹
         this._currShootTime += deltaTime;
         if (this._isShooting && this._currShootTime > this.shootTime) {
-            this.createPlayerBullet();
+            if (this._bulletType === Constant.BulletPropType.BULLET_H) {
+                this.createPlayerBulletH();
+            } else if (this._bulletType === Constant.BulletPropType.BULLET_S) {
+                this.createPlayerBulletS();
+            } else {
+                this.createPlayerBulletM();
+            }
             this._currShootTime = 0;
         }
 
@@ -132,13 +138,56 @@ export class GameManager extends Component {
 
     public addScore() { }
 
-    public createPlayerBullet() {
+    public createPlayerBulletM() {
         const bullet = instantiate(this.bullet01);
         bullet.setParent(this.bulletRoot);
         const pos = this.playerPlane.position;
         bullet.setPosition(pos.x, pos.y, pos.z - 7);
         const bulletComp = bullet.getComponent(Bullet);
         bulletComp.show(this.bulletSpeed, false);
+    }
+
+    public createPlayerBulletH() {
+        const pos = this.playerPlane.position;
+
+        // left
+        const bullet1 = instantiate(this.bullet03);
+        bullet1.setParent(this.bulletRoot);
+        bullet1.setPosition(pos.x - 2.5, pos.y, pos.z - 7);
+        const bulletComp1 = bullet1.getComponent(Bullet);
+        bulletComp1.show(this.bulletSpeed, false);
+
+        // right
+        const bullet2 = instantiate(this.bullet03);
+        bullet2.setParent(this.bulletRoot);
+        bullet2.setPosition(pos.x + 2.5, pos.y, pos.z - 7);
+        const bulletComp2 = bullet2.getComponent(Bullet);
+        bulletComp2.show(this.bulletSpeed, false);
+    }
+
+    public createPlayerBulletS() {
+        const pos = this.playerPlane.position;
+
+        // middle
+        const bullet = instantiate(this.bullet05);
+        bullet.setParent(this.bulletRoot);
+        bullet.setPosition(pos.x, pos.y, pos.z - 7);
+        const bulletComp = bullet.getComponent(Bullet);
+        bulletComp.show(this.bulletSpeed, false);
+
+        // left
+        const bullet1 = instantiate(this.bullet05);
+        bullet1.setParent(this.bulletRoot);
+        bullet1.setPosition(pos.x - 4, pos.y, pos.z - 7);
+        const bulletComp1 = bullet1.getComponent(Bullet);
+        bulletComp1.show(this.bulletSpeed, false, Constant.Direction.LEFT);
+
+        // right
+        const bullet2 = instantiate(this.bullet05);
+        bullet2.setParent(this.bulletRoot);
+        bullet2.setPosition(pos.x + 4, pos.y, pos.z - 7);
+        const bulletComp2 = bullet2.getComponent(Bullet);
+        bulletComp2.show(this.bulletSpeed, false, Constant.Direction.RIGHT);
     }
 
     public createEnemyBullet(targetPos: Vec3) {
