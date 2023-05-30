@@ -1,8 +1,9 @@
 
-import { _decorator, BoxCollider, Component, instantiate, math, Node, Prefab, TERRAIN_HEIGHT_BASE, Vec3 } from 'cc';
+import { _decorator, BoxCollider, Component, instantiate, macro, math, Node, Prefab, Vec3 } from 'cc';
 import { Bullet } from '../bullet/Bullet';
 import { Constant } from './Constant';
 import { EnemyPlane } from '../plane/EnemyPlane';
+import { BulletProp } from '../bullet/BulletProp';
 const { ccclass, property } = _decorator;
 
 /**
@@ -53,10 +54,21 @@ export class GameManager extends Component {
     @property
     public enemy2Speed = 0.7;
 
+    // 道具属性
+    @property(Prefab)
+    public bulletPropM: Prefab = null;
+    @property(Prefab)
+    public bulletPropH: Prefab = null;
+    @property(Prefab)
+    public bulletPropS: Prefab = null;
+    @property
+    public bulletPropSpeed = 0.3;
+
     private _currShootTime = 0;
     private _isShooting = false;
     private _currCreateEnemyTime = 0;
     private _combinationInterval = Constant.Combination.PLAN1;
+    private _bulletType = Constant.BulletPropType.BULLET_M;
 
     start() {
         this._init();
@@ -65,14 +77,18 @@ export class GameManager extends Component {
     private _init() {
         this._currShootTime = this.shootTime;
         this._changePlaneMode();
+
+        // 出场即创建子弹道具
+        this.createBulletProp();
     }
 
     private _changePlaneMode() {
-        this.schedule(this._modeChanged, 10, 3)
+        this.schedule(this._modeChanged, 10, macro.REPEAT_FOREVER);
     }
 
     private _modeChanged() {
         this._combinationInterval++;
+        this.createBulletProp();
     }
 
     update(deltaTime: number) {
@@ -196,8 +212,33 @@ export class GameManager extends Component {
         }
     }
 
+    // 创建子弹道具
+    public createBulletProp() {
+        const randomProp = math.randomRangeInt(1, 4);
+        let prefab: Prefab = null;
+        if (randomProp === Constant.BulletPropType.BULLET_H) {
+            prefab = this.bulletPropH;
+        } else if (randomProp === Constant.BulletPropType.BULLET_S) {
+            prefab = this.bulletPropS;
+        } else {
+            prefab = this.bulletPropM;
+        }
+
+        // 实例化道具
+        const prop = instantiate(prefab);
+        prop.setParent(this.node);
+        prop.setPosition(15, 0, -50);
+        const propComp = prop.getComponent(BulletProp);
+        propComp.show(this, -this.bulletPropSpeed);
+    }
+
     public isShooting(value: boolean) {
         this._isShooting = value;
+    }
+
+    // 改变当前子弹的类型
+    public changeBulletType(type: number) {
+        this._bulletType = type;
     }
 }
 
