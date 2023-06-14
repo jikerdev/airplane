@@ -18,6 +18,11 @@ const { ccclass, property } = _decorator;
 @ccclass('SelfPlane')
 export class SelfPlane extends Component {
 
+    public lifeValue = 5;
+    public isDie = false;
+
+    private _currLife = 0;
+
     onEnable() {
         // 注册触发事件来监听碰撞回调, onTriggerEnter 为碰撞开始回调
         const collider = this.getComponent(Collider);
@@ -29,11 +34,19 @@ export class SelfPlane extends Component {
         collider.off('onTriggerEnter', this._onTriggerEnter, this);
     }
 
+    public init() {
+        this._currLife = this.lifeValue;
+        this.isDie = false;
+    }
+
     private _onTriggerEnter(event: ITriggerEvent) {
         const colliderGroup = event.otherCollider.getGroup();
         if (colliderGroup === Constant.CollisionType.ENEMY_PLANE
             || colliderGroup === Constant.CollisionType.ENEMY_BULLET) {
-            console.log('reduce blood');
+            this._currLife--;
+            if (this._currLife <= 0) {
+                this.isDie = true;
+            }
         }
     }
 }

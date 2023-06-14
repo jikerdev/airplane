@@ -1,9 +1,10 @@
 
-import { _decorator, BoxCollider, Component, instantiate, macro, math, Node, Prefab, Vec3 } from 'cc';
+import { _decorator, BoxCollider, Component, instantiate, Label, macro, math, Node, Prefab, Vec3, Animation } from 'cc';
 import { Bullet } from '../bullet/Bullet';
 import { Constant } from './Constant';
 import { EnemyPlane } from '../plane/EnemyPlane';
 import { BulletProp } from '../bullet/BulletProp';
+import { SelfPlane } from '../plane/SelfPlane';
 const { ccclass, property } = _decorator;
 
 /**
@@ -21,8 +22,8 @@ const { ccclass, property } = _decorator;
 @ccclass('GameManager')
 export class GameManager extends Component {
 
-    @property(Node)
-    public playerPlane: Node = null;
+    @property(SelfPlane)
+    public playerPlane: SelfPlane = null;
     // bullet
     @property(Prefab)
     public bullet01: Prefab = null;
@@ -63,12 +64,63 @@ export class GameManager extends Component {
     public bulletPropS: Prefab = null;
     @property
     public bulletPropSpeed = 0.3;
+    @property(Node)
+    public gamePage: Node = null;
+    @property(Node)
+    public gameOverPage: Node = null;
+    @property(Label)
+    public gameScore: Label = null;
+    @property(Label)
+    public gameOverScore: Label = null;
+    @property(Animation)
+    public overAnim: Animation = null;
+
+    public isGameStart = false;
 
     private _currShootTime = 0;
     private _isShooting = false;
     private _currCreateEnemyTime = 0;
     private _combinationInterval = Constant.Combination.PLAN1;
     private _bulletType = Constant.BulletPropType.BULLET_M;
+    private _score = 0;
+
+    public returnMain() {
+        this._currShootTime = 0;
+        this._currCreateEnemyTime = 0;
+        this._combinationInterval = Constant.Combination.PLAN1;
+        this._bulletType = Constant.BulletPropType.BULLET_M;
+        this.playerPlane.node.setPosition(0, 0, 15);
+        this._score = 0;
+    }
+
+    public gameStart() {
+        this.isGameStart = true;
+        this._changePlaneMode();
+        this._score = 0;
+        this.gameOverScore.string = this._score.toString();
+    }
+
+    public gameReStart() {
+        this.isGameStart = true;
+        this._currShootTime = 0;
+        this._currCreateEnemyTime = 0;
+        this._combinationInterval = Constant.Combination.PLAN1;
+        this._bulletType = Constant.BulletPropType.BULLET_M;
+        this.playerPlane.node.setPosition(0, 0, 15);
+        this._score = 0;
+    }
+
+    public gameOver() {
+        this.isGameStart = false;
+        this.gamePage.active = false;
+        this.gameOverPage.active = true;
+        this.gameOverScore.string = this._score.toString();
+        this.overAnim.play();
+        this._isShooting = false;
+        this.playerPlane.init();
+        this.unschedule(this._modeChanged);
+        this._destroyAll();
+    }
 
     start() {
         this._init();
@@ -76,10 +128,7 @@ export class GameManager extends Component {
 
     private _init() {
         this._currShootTime = this.shootTime;
-        this._changePlaneMode();
-
-        // 出场即创建子弹道具
-        this.createBulletProp();
+        this.playerPlane.init();
     }
 
     private _changePlaneMode() {
@@ -92,6 +141,16 @@ export class GameManager extends Component {
     }
 
     update(deltaTime: number) {
+        if (!this.isGameStart) {
+            return;
+        }
+
+        if (this.playerPlane.isDie) {
+            this.gameOver();
+            return;
+        }
+
+
         // 当前时间大于射击时间，就发射子弹
         this._currShootTime += deltaTime;
         if (this._isShooting && this._currShootTime > this.shootTime) {
@@ -136,19 +195,22 @@ export class GameManager extends Component {
         }
     }
 
-    public addScore() { }
+    public addScore() {
+        this._score++;
+        this.gameScore.string = this._score.toString();
+    }
 
     public createPlayerBulletM() {
         const bullet = instantiate(this.bullet01);
         bullet.setParent(this.bulletRoot);
-        const pos = this.playerPlane.position;
+        const pos = this.playerPlane.node.position;
         bullet.setPosition(pos.x, pos.y, pos.z - 7);
         const bulletComp = bullet.getComponent(Bullet);
         bulletComp.show(this.bulletSpeed, false);
     }
 
     public createPlayerBulletH() {
-        const pos = this.playerPlane.position;
+        const pos = this.playerPlane.node.position;
 
         // left
         const bullet1 = instantiate(this.bullet03);
@@ -166,7 +228,7 @@ export class GameManager extends Component {
     }
 
     public createPlayerBulletS() {
-        const pos = this.playerPlane.position;
+        const pos = this.playerPlane.node.position;
 
         // middle
         const bullet = instantiate(this.bullet05);
@@ -288,6 +350,25 @@ export class GameManager extends Component {
     // 改变当前子弹的类型
     public changeBulletType(type: number) {
         this._bulletType = type;
+    }
+
+    private _destroyAll() {
+        let children = this.node.children;
+        let length = children.length;
+        // 从后往前销毁
+        let i = 0;
+        for (i = length - 1; i >= 0; i--) {
+            const element = children[i];
+            element.destroy();
+        }
+
+        // 销毁子弹
+        children = this.bulletRoot.children;
+        length = children.length;
+        for (i = length - 1; i >= 0; i--) {
+            const element = children[i];
+            element.destroy();
+        }
     }
 }
 

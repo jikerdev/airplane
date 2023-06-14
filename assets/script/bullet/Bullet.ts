@@ -47,7 +47,6 @@ export class Bullet extends Component {
 
             if (moveLength > 50) {
                 this.node.destroy();
-                console.log('bullet destroy');
             }
         } else {
             // 我方子弹
@@ -62,7 +61,6 @@ export class Bullet extends Component {
 
             if (moveLength < -50) {
                 this.node.destroy();
-                console.log('bullet destroy');
             }
         }
     }
