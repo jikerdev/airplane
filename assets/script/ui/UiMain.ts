@@ -49,19 +49,22 @@ export class UiMain extends Component {
         } else {
             this.gameStart.active = false;
             this.game.active = true;
+            this.gameManager.playAudioEffect('button');
             this.gameManager.gameStart();
         }
     }
 
-    public reStart(){
+    public reStart() {
         this.gameOver.active = false;
         this.game.active = true;
+        this.gameManager.playAudioEffect('button');
         this.gameManager.gameReStart();
     }
 
-    public retuenMain(){
+    public retuenMain() {
         this.gameOver.active = false;
         this.gameStart.active = true;
+        this.gameManager.playAudioEffect('button');
         this.gameManager.returnMain();
     }
 

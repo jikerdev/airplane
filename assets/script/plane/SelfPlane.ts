@@ -1,5 +1,5 @@
 
-import { _decorator, Collider, Component, ITriggerEvent } from 'cc';
+import { _decorator, AudioSource, Collider, Component, ITriggerEvent } from 'cc';
 import { Constant } from '../framework/Constant';
 const { ccclass, property } = _decorator;
 
@@ -22,6 +22,11 @@ export class SelfPlane extends Component {
     public isDie = false;
 
     private _currLife = 0;
+    private _audioSource: AudioSource = null;
+
+    start() {
+        this._audioSource = this.getComponent(AudioSource);
+    }
 
     onEnable() {
         // 注册触发事件来监听碰撞回调, onTriggerEnter 为碰撞开始回调
@@ -46,6 +51,8 @@ export class SelfPlane extends Component {
             this._currLife--;
             if (this._currLife <= 0) {
                 this.isDie = true;
+                this._audioSource.play();
+                console.log('self plane is die');
             }
         }
     }

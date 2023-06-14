@@ -47,7 +47,7 @@ export class EnemyPlane extends Component {
         const colliderGroup = event.otherCollider.getGroup();
         if (colliderGroup === Constant.CollisionType.SELF_PLANE
             || colliderGroup === Constant.CollisionType.SELF_BULLET) {
-            console.log('trigger enemy destroy');
+            this._gameManager.playAudioEffect('enemy');
             this.node.destroy();
             this._gameManager.addScore();
         }
