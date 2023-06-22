@@ -2,7 +2,7 @@
   "ver": "1.0.21",
   "importer": "image",
   "imported": true,
-  "uuid": "852414ee-da7d-4ddc-a766-00ae4eae4161",
+  "uuid": "c2b2405f-b0fe-4f55-a18e-35a863d7251e",
   "files": [
     ".png",
     ".json"
@@ -10,7 +10,7 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "852414ee-da7d-4ddc-a766-00ae4eae4161@6c48a",
+      "uuid": "c2b2405f-b0fe-4f55-a18e-35a863d7251e@6c48a",
       "displayName": "fxcloudwhite2",
       "id": "6c48a",
       "name": "texture",
@@ -22,7 +22,7 @@
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "852414ee-da7d-4ddc-a766-00ae4eae4161"
+        "imageUuidOrDatabaseUri": "c2b2405f-b0fe-4f55-a18e-35a863d7251e"
       },
       "ver": "1.0.21",
       "imported": true,
@@ -35,6 +35,6 @@
   "userData": {
     "hasAlpha": true,
     "type": "texture",
-    "redirect": "852414ee-da7d-4ddc-a766-00ae4eae4161@6c48a"
+    "redirect": "c2b2405f-b0fe-4f55-a18e-35a863d7251e@6c48a"
   }
 }

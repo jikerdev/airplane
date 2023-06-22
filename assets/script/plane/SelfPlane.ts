@@ -1,5 +1,5 @@
 
-import { _decorator, AudioSource, Collider, Component, ITriggerEvent } from 'cc';
+import { _decorator, AudioSource, Collider, Component, ITriggerEvent, Node } from 'cc';
 import { Constant } from '../framework/Constant';
 const { ccclass, property } = _decorator;
 
@@ -17,6 +17,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass('SelfPlane')
 export class SelfPlane extends Component {
+    @property(Node)
+    public explode: Node = null;
 
     public lifeValue = 5;
     public isDie = false;
@@ -42,6 +44,7 @@ export class SelfPlane extends Component {
     public init() {
         this._currLife = this.lifeValue;
         this.isDie = false;
+        this.explode.active = false;
     }
 
     private _onTriggerEnter(event: ITriggerEvent) {
@@ -52,6 +55,8 @@ export class SelfPlane extends Component {
             if (this._currLife <= 0) {
                 this.isDie = true;
                 this._audioSource.play();
+                // 碰撞时，将爆炸激活
+                this.explode.active = true;
                 console.log('self plane is die');
             }
         }

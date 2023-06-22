@@ -56,6 +56,8 @@ export class GameManager extends Component {
     public enemy1Speed = 0.5;
     @property
     public enemy2Speed = 0.7;
+    @property(Prefab)
+    public enemyExplode: Prefab = null;
 
     // 道具属性
     @property(Prefab)
@@ -105,18 +107,17 @@ export class GameManager extends Component {
         this.isGameStart = true;
         this._changePlaneMode();
         this._score = 0;
-        this.gameOverScore.string = this._score.toString();
+        this.gameScore.string = this._score.toString();
+        this.playerPlane.init();
     }
 
     public gameReStart() {
-        this.isGameStart = true;
+        this.gameStart();
         this._currShootTime = 0;
         this._currCreateEnemyTime = 0;
-        this._changePlaneMode();
         this._combinationInterval = Constant.Combination.PLAN1;
         this._bulletType = Constant.BulletPropType.BULLET_M;
         this.playerPlane.node.setPosition(0, 0, 15);
-        this._score = 0;
     }
 
     public gameOver() {
@@ -126,7 +127,6 @@ export class GameManager extends Component {
         this.gameOverScore.string = this._score.toString();
         this.overAnim.play();
         this._isShooting = false;
-        this.playerPlane.init();
         this.unschedule(this._modeChanged);
         this._destroyAll();
     }
@@ -293,6 +293,8 @@ export class GameManager extends Component {
         enemy.setPosition(randomPos, 0, -50);
     }
 
+
+
     public createCombination1() {
         const enemyArray = new Array<Node>(5);
         for (let i = 0; i < 5; i++) {
@@ -327,6 +329,11 @@ export class GameManager extends Component {
             const enemyComp = element.getComponent(EnemyPlane);
             enemyComp.show(this, this.enemy2Speed, false);
         }
+    }
+
+    public createEnemyEffect(pos: Vec3) {
+        const effect = PoolManager.instance().getNode(this.enemyExplode, this.node);
+        effect.setPosition(pos);
     }
 
     // 创建子弹道具

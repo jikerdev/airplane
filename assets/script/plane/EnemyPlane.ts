@@ -51,6 +51,7 @@ export class EnemyPlane extends Component {
             this._gameManager.playAudioEffect('enemy');
             PoolManager.instance().putNode(this.node);
             this._gameManager.addScore();
+            this._gameManager.createEnemyEffect(this.node.position);
         }
     }
 
