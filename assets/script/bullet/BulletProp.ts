@@ -2,6 +2,7 @@
 import { _decorator, Collider, Component, ITriggerEvent, Node } from 'cc';
 import { GameManager } from '../framework/GameManager';
 import { Constant } from '../framework/Constant';
+import { PoolManager } from '../framework/PoolManager';
 const { ccclass, property } = _decorator;
 
 /**
@@ -45,7 +46,7 @@ export class BulletProp extends Component {
 
         pos = this.node.position;
         if (pos.z > 50) {
-            this.node.destroy();
+            PoolManager.instance().putNode(this.node);
         }
     }
 
@@ -64,7 +65,7 @@ export class BulletProp extends Component {
             this._gameManager.changeBulletType(Constant.BulletPropType.BULLET_M);
         }
 
-        this.node.destroy();
+        PoolManager.instance().putNode(this.node);
     }
 }
 

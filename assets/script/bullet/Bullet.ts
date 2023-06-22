@@ -1,6 +1,7 @@
 
 import { _decorator, Collider, Component, ITriggerEvent, Node } from 'cc';
 import { Constant } from '../framework/Constant';
+import { PoolManager } from '../framework/PoolManager';
 const { ccclass, property } = _decorator;
 
 /**
@@ -32,9 +33,7 @@ export class Bullet extends Component {
     }
 
     private _onTriggerEnter(event: ITriggerEvent) {
-        console.log('trigger bullet destroy');
-
-        this.node.destroy();
+        PoolManager.instance().putNode(this.node);
     }
 
     update(deltaTime: number) {
@@ -46,7 +45,7 @@ export class Bullet extends Component {
             this.node.setPosition(pos.x, pos.y, moveLength);
 
             if (moveLength > 50) {
-                this.node.destroy();
+                PoolManager.instance().putNode(this.node);
             }
         } else {
             // 我方子弹
@@ -60,7 +59,7 @@ export class Bullet extends Component {
             }
 
             if (moveLength < -50) {
-                this.node.destroy();
+                PoolManager.instance().putNode(this.node);
             }
         }
     }
