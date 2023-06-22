@@ -19,6 +19,10 @@ const { ccclass, property } = _decorator;
 export class SelfPlane extends Component {
     @property(Node)
     public explode: Node = null;
+    @property(Node)
+    public bloodFace: Node = null;
+    @property(Node)
+    public blood: Node = null;
 
     public lifeValue = 5;
     public isDie = false;
@@ -45,19 +49,28 @@ export class SelfPlane extends Component {
         this._currLife = this.lifeValue;
         this.isDie = false;
         this.explode.active = false;
+        // 每次初始化时，将血条缩放值重置
+        this.bloodFace.setScale(1, 1, 1);
     }
 
     private _onTriggerEnter(event: ITriggerEvent) {
         const colliderGroup = event.otherCollider.getGroup();
         if (colliderGroup === Constant.CollisionType.ENEMY_PLANE
             || colliderGroup === Constant.CollisionType.ENEMY_BULLET) {
+            if (this._currLife === this.lifeValue) {
+                // 飞机第一次减少血量时，激活血量组件
+                this.blood.active = true;
+            }
             this._currLife--;
+            // 每次扣血时，调整血条的缩放值
+            this.bloodFace.setScale(this._currLife / this.lifeValue, 1, 1);
             if (this._currLife <= 0) {
                 this.isDie = true;
                 this._audioSource.play();
                 // 碰撞时，将爆炸激活
                 this.explode.active = true;
-                console.log('self plane is die');
+                // 玩家飞机死亡时，隐藏血量
+                this.blood.active = false;
             }
         }
     }
